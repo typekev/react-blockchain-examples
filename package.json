@@ -1,6 +1,6 @@
 {
   "name": "learn-blockchain",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A neat app to help you understand blockchain using the reblock library",
   "repository": {
     "type": "git",
@@ -230,6 +230,7 @@
     "minimist": "1.2.0",
     "moment": "^2.21.0",
     "prop-types": "15.5.10",
+    "randomstring": "^1.1.5",
     "react": "15.6.1",
     "react-dom": "15.6.1",
     "react-helmet": "5.1.3",
@@ -238,7 +239,7 @@
     "react-redux": "5.0.5",
     "react-router-dom": "4.1.1",
     "react-router-redux": "5.0.0-alpha.6",
-    "reblock": "^0.0.4",
+    "reblock": "^0.0.6",
     "redux": "3.6.0",
     "redux-immutable": "4.0.0",
     "redux-saga": "0.15.3",

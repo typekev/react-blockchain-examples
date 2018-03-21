@@ -1,6 +1,9 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
 import moment from "moment";
+import sha256 from "crypto-js/sha256";
+import randomstring from "randomstring";
+// import Blockchain from "reblock";
 
 import Button from "material-ui/Button";
 import Dialog, {
@@ -11,31 +14,47 @@ import Dialog, {
 } from "material-ui/Dialog";
 import TextField from "material-ui/TextField";
 
-import Blockchain from "reblock";
+import Blockchain from "components/Blockchain";
 import Block from "components/Block";
 import messages from "./messages";
+
+const initialGlobalObject = (data = 0) => {
+  return {
+    index: 0,
+    data: "No data"
+  };
+};
+
+const initialState = {
+  chain: [],
+  open: false,
+  title: "",
+  message: "",
+  currentBlockData: {},
+  fields: [],
+  transaction: false,
+  contract: false,
+  globalObject: {},
+  wallet: sha256(
+    moment().format("LL h:mm:ss:SSS A") + randomstring.generate(64)
+  ).toString()
+};
 
 export default class HomePage extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
-    this.state = {
-      chain: [],
-      open: false,
-      title: "",
-      message: "",
-      currentBlockData: {},
-      fields: []
-    };
+    this.state = initialState;
   }
 
-  getBlockObject = data => {
-    return {
-      index: 0,
-      timestamp: moment().format("LL h:mm:ss:SSS A"),
-      data: "Block " + data.index
-    };
-  };
+  toggleNewObject = type =>
+    this.setState({
+      title: `New ${type}`,
+      message: `Note down the details of your ${type} below.`,
+      globalObject: {},
+      [type]: !this.state[type],
+      open: !this.state.open
+    });
 
   toggleDialog = (props = {}) => {
     const {
@@ -43,7 +62,13 @@ export default class HomePage extends React.PureComponent {
       message = this.state.message,
       fields = []
     } = props;
-    this.setState({ open: !this.state.open, title, message, fields });
+    const { open } = this.state;
+    this.setState({
+      open: !open,
+      title,
+      message,
+      fields
+    });
   };
 
   editBlock = index => {
@@ -59,7 +84,29 @@ export default class HomePage extends React.PureComponent {
     });
   };
 
-  updateChain = chain => this.setState({ chain });
+  updateChain = chain => this.setState({ chain, globalObject: {} });
+  updateGlobalObject = (field, value) =>
+    this.setState({
+      globalObject: {
+        ...this.state.globalObject,
+        [field]: value
+      }
+    });
+
+  getGlobalObject = data => {
+    const { globalObject, wallet } = this.state;
+    this.setState({
+      transaction: false,
+      contract: false
+    });
+    const timestamp = moment().format("LL h:mm:ss:SSS A");
+
+    if (Object.keys(globalObject).length === 0) {
+      return { ...initialGlobalObject(data), timestamp };
+    } else {
+      return { ...globalObject, wallet, timestamp };
+    }
+  };
 
   render() {
     const {
@@ -68,29 +115,63 @@ export default class HomePage extends React.PureComponent {
       title,
       message,
       fields,
-      currentBlockData
+      currentBlockData,
+      transaction,
+      contract,
+      globalObject,
+      wallet
     } = this.state;
+
+    const isGlobalObjectEmpty =
+      Object.keys(this.state.globalObject).length === 0;
+
     const actions =
-      fields.length > 0
-        ? [
-            <Button
-              color="primary"
-              onClick={() => {
-                let newChain = chain;
-                newChain[currentBlockData.index] = currentBlockData;
-                this.updateChain(newChain);
-                this.toggleDialog();
-              }}
-            >
-              Save
-            </Button>,
-            <Button onClick={this.toggleDialog}>Cancel</Button>
-          ]
-        : [<Button onClick={this.toggleDialog}>OK</Button>];
+      contract || transaction ? (
+        [
+          <Button key="Ok" onClick={this.toggleDialog}>
+            Ok
+          </Button>,
+          <Button
+            key="Cancel"
+            onClick={() =>
+              this.toggleNewObject(contract ? "contract" : "transaction")
+            }
+          >
+            Cancel
+          </Button>
+        ]
+      ) : fields.length > 0 ? (
+        [
+          <Button
+            key="Save"
+            color="primary"
+            onClick={() => {
+              let newChain = chain;
+              newChain[currentBlockData.index] = currentBlockData;
+              this.updateChain(newChain);
+              this.toggleDialog();
+            }}
+          >
+            Save
+          </Button>,
+          <Button key="Cancel" onClick={this.toggleDialog}>
+            Cancel
+          </Button>
+        ]
+      ) : (
+        <Button onClick={this.toggleDialog}>OK</Button>
+      );
     const form = fields.map((label, i) => (
       <TextField
         key={i}
-        label={label.charAt(0).toUpperCase() + label.slice(1)}
+        label={
+          label.charAt(0).toUpperCase() +
+          label
+            .slice(1)
+            .replace(/([A-Z])/g, " $1")
+            .trim()
+            .toLowerCase()
+        }
         InputLabelProps={{
           shrink: true
         }}
@@ -106,8 +187,101 @@ export default class HomePage extends React.PureComponent {
         margin="normal"
       />
     ));
-    return (
+
+    const contractElement = (
       <div>
+        <TextField
+          label="Contract title"
+          InputLabelProps={{
+            shrink: true
+          }}
+          fullWidth
+          value={globalObject.contractTitle || ""}
+          onChange={e =>
+            this.updateGlobalObject("contractTitle", e.target.value)
+          }
+          margin="normal"
+        />
+        <TextField
+          label="Contract details"
+          InputLabelProps={{
+            shrink: true
+          }}
+          fullWidth
+          value={globalObject.contractDetails || ""}
+          onChange={e =>
+            this.updateGlobalObject("contractDetails", e.target.value)
+          }
+          margin="normal"
+          multiline
+          rowsMax="4"
+        />
+        <TextField
+          label="Send to"
+          InputLabelProps={{
+            shrink: true
+          }}
+          fullWidth
+          value={globalObject.sentTo || ""}
+          onChange={e => this.updateGlobalObject("sentTo", e.target.value)}
+          margin="normal"
+        />
+        <TextField
+          label="Origin wallet"
+          InputLabelProps={{
+            shrink: true
+          }}
+          fullWidth
+          value={wallet}
+          margin="normal"
+          disabled
+        />
+      </div>
+    );
+
+    const transactionElement = (
+      <div>
+        <TextField
+          type="number"
+          min="0"
+          label="Transaction amount"
+          InputLabelProps={{
+            shrink: true
+          }}
+          fullWidth
+          value={parseFloat(globalObject.transactionAmount) || 0}
+          onChange={e =>
+            this.updateGlobalObject(
+              "transactionAmount",
+              parseFloat(e.target.value) > 0 ? parseFloat(e.target.value) : 0
+            )
+          }
+          margin="normal"
+        />
+        <TextField
+          label="Send to"
+          InputLabelProps={{
+            shrink: true
+          }}
+          fullWidth
+          value={globalObject.sentTo || ""}
+          onChange={e => this.updateGlobalObject("sentTo", e.target.value)}
+          margin="normal"
+        />
+        <TextField
+          label="Send from"
+          InputLabelProps={{
+            shrink: true
+          }}
+          fullWidth
+          value={wallet}
+          margin="normal"
+          disabled
+        />
+      </div>
+    );
+    return (
+      <div className="grid-x grid-padding-y">
         <Dialog
           onClose={this.handleClose}
           aria-labelledby="simple-dialog-title"
@@ -117,35 +291,71 @@ export default class HomePage extends React.PureComponent {
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
               {message}
-              <div>{form}</div>
             </DialogContentText>
+            {contract
+              ? contractElement
+              : transaction ? transactionElement : form}
           </DialogContent>
           <DialogActions>{actions}</DialogActions>
         </Dialog>
-
-        <Blockchain
-          genButton={
-            <Button variant="raised" color="primary" fullWidth>
-              Generate block
-            </Button>
-          }
-          valButton={
-            <Button variant="raised" color="secondary" fullWidth>
-              Validate chain
-            </Button>
-          }
-          notify={this.toggleDialog}
-          editBlock={this.editBlock}
-          chain={chain}
-          updateChain={this.updateChain}
-          difficulty={2}
-          block={<Block />}
-          getBlockObject={this.getBlockObject}
-          chainValidMessage={{
-            title: "Looks good!",
-            message: "This chain has no errors, and it matches the rest of the network"
-          }}
-        />
+        <div className="cell grid-x">
+          <Button
+            className="auto cell"
+            variant="raised"
+            color="primary"
+            fullWidth
+            onClick={() => this.toggleNewObject("contract")}
+            disabled={!isGlobalObjectEmpty}
+          >
+            Create a contract
+          </Button>
+          <div className="small-1 cell" />
+          <Button
+            className="auto cell"
+            variant="raised"
+            color="primary"
+            fullWidth
+            onClick={() => this.toggleNewObject("transaction")}
+            disabled={!isGlobalObjectEmpty}
+          >
+            Create a transaction
+          </Button>
+        </div>
+        <div className="cell">
+          <Blockchain
+            genButton={
+              <Button variant="raised" color="primary" fullWidth>
+                {contract
+                  ? "Generate your contract"
+                  : transaction
+                    ? "Generate your transaction"
+                    : "Generate default block"}
+              </Button>
+            }
+            valButton={
+              <Button
+                variant="raised"
+                color="secondary"
+                fullWidth
+                disabled={!isGlobalObjectEmpty}
+              >
+                Validate chain
+              </Button>
+            }
+            notify={this.toggleDialog}
+            editBlock={this.editBlock}
+            chain={chain}
+            updateChain={this.updateChain}
+            difficulty={chain.length}
+            block={<Block />}
+            getBlockObject={this.getGlobalObject}
+            chainValidMessage={{
+              title: "Looks good!",
+              message:
+                "This chain has no errors, and it matches the rest of the network"
+            }}
+          />
+        </div>
       </div>
     );
   }

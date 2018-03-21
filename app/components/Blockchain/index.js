@@ -17,6 +17,15 @@ class Blockchain extends React.Component {
     this.addBlock();
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { difficulty } = nextProps;
+    if (difficulty && difficulty !== this.state.difficulty) {
+      this.setState({
+        difficulty
+      });
+    }
+  }
+
   calculateHash = blockData => sha256(JSON.stringify(blockData)).toString();
 
   createGenesisBlock = () => {
@@ -83,7 +92,6 @@ class Blockchain extends React.Component {
       nonce++;
       hash = this.calculateHash({ ...block, nonce });
     }
-    console.log("currentBlockData HASH ADDNEW", { ...block, nonce });
     return { hash, nonce };
   };
 
@@ -157,7 +165,7 @@ class Blockchain extends React.Component {
         {React.cloneElement(genButton, { onClick: this.addBlock })}
         {React.cloneElement(valButton, {
           onClick: this.isChainValid,
-          disabled: chain.length < 2
+          disabled: valButton.props.disabled || chain.length < 2
         })}
         {chain.map((b, i) =>
           React.cloneElement(block, {

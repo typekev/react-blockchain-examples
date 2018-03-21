@@ -6,14 +6,6 @@ import Button from "material-ui/Button";
 import Typography from "material-ui/Typography";
 
 const styles = {
-  card: {
-    minWidth: 275
-  },
-  bullet: {
-    display: "inline-block",
-    margin: "0 2px",
-    transform: "scale(0.8)"
-  },
   title: {
     marginBottom: 16,
     fontSize: 14
@@ -24,20 +16,43 @@ const styles = {
 };
 
 function Block(props) {
-  const { classes, index, timestamp, data, onDelete, onEdit, ...rest } = props;
+  const {
+    classes,
+    index,
+    timestamp,
+    data,
+    onDelete,
+    onEdit,
+    contractTitle,
+    contractDetails,
+    sentTo,
+    transactionAmount,
+    wallet,
+    ...rest
+  } = props;
 
   return (
     <div>
-      <Card className={classes.card}>
+      <Card>
         <CardContent>
           <Typography className={classes.title} color="textSecondary">
-            {timestamp}
+            {`Block ${index} was created on ${timestamp}`}
           </Typography>
           <Typography variant="headline" component="h2">
-            {`Block ${index}`}
+            {contractTitle ? "Contract" : data || "Transaction"}
           </Typography>
           <Typography className={classes.pos} color="textSecondary">
-            {data}
+            {contractDetails
+              ? `${wallet} created a contract titled '${contractTitle}' for ${sentTo}`
+              : transactionAmount
+                ? `${wallet} sent ${sentTo} ${transactionAmount} Devocoins.`
+                : "Nothing to see here."}
+          </Typography>
+          <Typography component="h3" className={classes.pos} color="primary">
+            <strong>{contractTitle}</strong>
+          </Typography>
+          <Typography className={classes.pos} color="textSecondary">
+            {contractDetails}
           </Typography>
         </CardContent>
         <CardActions>
