@@ -1,6 +1,6 @@
 {
   "name": "learn-blockchain",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A neat app to help you understand blockchain using the reblock library",
   "repository": {
     "type": "git",
