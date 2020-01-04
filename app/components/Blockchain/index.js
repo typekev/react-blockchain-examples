@@ -13,10 +13,6 @@ class Blockchain extends React.Component {
     };
   }
 
-  componentWillMount() {
-    this.addBlock();
-  }
-
   componentWillReceiveProps(nextProps) {
     const { difficulty } = nextProps;
     if (difficulty && difficulty !== this.state.difficulty) {
