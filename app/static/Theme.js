@@ -1,5 +1,5 @@
-import React from "react";
-import { createMuiTheme } from "material-ui/styles";
+import React from 'react';
+import { createMuiTheme } from 'material-ui/styles';
 
 import {
   primaryColor,
@@ -10,8 +10,8 @@ import {
   primaryText,
   secondaryText,
   accentText,
-  backgroundColor
-} from "./Colors";
+  backgroundColor,
+} from './Colors';
 
 const DevoteamTheme = createMuiTheme({
   palette: {
@@ -19,17 +19,17 @@ const DevoteamTheme = createMuiTheme({
       light: primaryColorLight,
       main: primaryColor,
       dark: primaryColorDark,
-      contrastText: text
+      contrastText: text,
     },
     secondary: {
       light: accentText,
       main: accentColor,
       dark: secondaryText,
-      contrastText: text
-    }
+      contrastText: text,
+    },
   },
 
-  overrides: {}
+  overrides: {},
 });
 
 export default DevoteamTheme;

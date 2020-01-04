@@ -1,6 +1,6 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-import { backgroundColor } from "static/Colors";
+import { backgroundColor } from 'static/Colors';
 
 const CardContainer = styled.div`
   background: ${backgroundColor};

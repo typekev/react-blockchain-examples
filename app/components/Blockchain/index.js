@@ -1,7 +1,7 @@
-import React from "react";
-import sha256 from "crypto-js/sha256";
+import React from 'react';
+import sha256 from 'crypto-js/sha256';
 
-import DefaultBlock from "../DefaultBlock";
+import DefaultBlock from '../DefaultBlock';
 
 class Blockchain extends React.Component {
   // eslint-disable-line react/prefer-stateless-function
@@ -9,7 +9,7 @@ class Blockchain extends React.Component {
     super(props);
     this.state = {
       distributedChain: [],
-      difficulty: props.difficulty || 2
+      difficulty: props.difficulty || 2,
     };
   }
 
@@ -17,7 +17,7 @@ class Blockchain extends React.Component {
     const { difficulty } = nextProps;
     if (difficulty && difficulty !== this.state.difficulty) {
       this.setState({
-        difficulty
+        difficulty,
       });
     }
   }
@@ -29,7 +29,7 @@ class Blockchain extends React.Component {
     const genesisBlock = {
       ...getBlockObject({ index: 0 }),
       index: 0,
-      previousHash: ""
+      previousHash: '',
     };
     const generatedBlockData = this.mineBlock(genesisBlock);
 
@@ -37,8 +37,8 @@ class Blockchain extends React.Component {
       [...chain].concat([
         {
           ...genesisBlock,
-          ...generatedBlockData
-        }
+          ...generatedBlockData,
+        },
       ])
     );
   };
@@ -63,7 +63,7 @@ class Blockchain extends React.Component {
     const newBlockData = {
       ...getBlockObject({ index: latestBlock.index + 1 }),
       index: latestBlock.index + 1,
-      previousHash: latestBlock.hash
+      previousHash: latestBlock.hash,
     };
 
     const generatedBlockData = this.mineBlock(newBlockData);
@@ -75,7 +75,7 @@ class Blockchain extends React.Component {
       distributedChain:
         distributedChain.length < 1
           ? [...chain].concat([newBlock])
-          : [...distributedChain].concat([newBlock])
+          : [...distributedChain].concat([newBlock]),
     });
   };
 
@@ -84,7 +84,7 @@ class Blockchain extends React.Component {
     const { difficulty } = this.state;
     let nonce = latestBlock ? latestBlock.nonce : 0;
     let hash = this.calculateHash(block);
-    while (hash.substring(0, difficulty) !== Array(difficulty + 1).join("0")) {
+    while (hash.substring(0, difficulty) !== Array(difficulty + 1).join('0')) {
       nonce++;
       hash = this.calculateHash({ ...block, nonce });
     }
@@ -98,7 +98,7 @@ class Blockchain extends React.Component {
       notify = () => {},
       chainAlteredErrorMessage,
       chainLengthErrorMessage,
-      chainValidMessage
+      chainValidMessage,
     } = this.props;
     const prevBlock = this.getLatestBlock();
 
@@ -119,13 +119,13 @@ class Blockchain extends React.Component {
         notify(
           distributedChain.length === chain.length
             ? chainAlteredErrorMessage || {
-                title: "Woah!",
-                message: `This chain has been altered from it's original state. Check block: ${i}`
+                title: 'Woah!',
+                message: `This chain has been altered from it's original state. Check block: ${i}`,
               }
             : chainLengthErrorMessage || {
-                title: "Woah!",
+                title: 'Woah!',
                 message:
-                  "Hold on, your chain does not match the other chains on the network.."
+                  'Hold on, your chain does not match the other chains on the network..',
               }
         );
         return false;
@@ -133,8 +133,8 @@ class Blockchain extends React.Component {
     }
     notify(
       chainValidMessage || {
-        title: "Great!",
-        message: "All the blocks in this chain are valid."
+        title: 'Great!',
+        message: 'All the blocks in this chain are valid.',
       }
     );
     return true;
@@ -153,7 +153,7 @@ class Blockchain extends React.Component {
     const {
       genButton = <button>Generate Block</button>,
       valButton = <button>Validate Chain</button>,
-      editBlock
+      editBlock,
     } = this.props;
 
     return (
@@ -161,14 +161,14 @@ class Blockchain extends React.Component {
         {React.cloneElement(genButton, { onClick: this.addBlock })}
         {React.cloneElement(valButton, {
           onClick: this.isChainValid,
-          disabled: valButton.props.disabled || chain.length < 2
+          disabled: valButton.props.disabled || chain.length < 2,
         })}
         {chain.map((b, i) =>
           React.cloneElement(block, {
             key: i,
             onEdit: editBlock,
             onDelete: this.deleteBlock,
-            ...b
+            ...b,
           })
         )}
       </div>

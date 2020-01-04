@@ -1,43 +1,43 @@
-import React from "react";
-import { FormattedMessage } from "react-intl";
-import moment from "moment";
-import sha256 from "crypto-js/sha256";
-import randomstring from "randomstring";
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
+import moment from 'moment';
+import sha256 from 'crypto-js/sha256';
+import randomstring from 'randomstring';
 // import Blockchain from "reblock";
 
-import Button from "material-ui/Button";
+import Button from 'material-ui/Button';
 import Dialog, {
   DialogTitle,
   DialogContent,
   DialogContentText,
-  DialogActions
-} from "material-ui/Dialog";
-import TextField from "material-ui/TextField";
+  DialogActions,
+} from 'material-ui/Dialog';
+import TextField from 'material-ui/TextField';
 
-import Blockchain from "components/Blockchain";
-import Block from "components/Block";
-import messages from "./messages";
+import Blockchain from 'components/Blockchain';
+import Block from 'components/Block';
+import messages from './messages';
 
 const initialGlobalObject = (data = 0) => {
   return {
     index: 0,
-    data: "No data"
+    data: 'No data',
   };
 };
 
 const initialState = {
   chain: [],
   open: false,
-  title: "",
-  message: "",
+  title: '',
+  message: '',
   currentBlockData: {},
   fields: [],
   transaction: false,
   contract: false,
   globalObject: {},
   wallet: sha256(
-    moment().format("LL h:mm:ss:SSS A") + randomstring.generate(64)
-  ).toString()
+    moment().format('LL h:mm:ss:SSS A') + randomstring.generate(64)
+  ).toString(),
 };
 
 export default class HomePage extends React.PureComponent {
@@ -53,34 +53,34 @@ export default class HomePage extends React.PureComponent {
       message: `Note down the details of your ${type} below.`,
       globalObject: {},
       [type]: !this.state[type],
-      open: !this.state.open
+      open: !this.state.open,
     });
 
   toggleDialog = (props = {}) => {
     const {
       title = this.state.title,
       message = this.state.message,
-      fields = []
+      fields = [],
     } = props;
     const { open } = this.state;
     this.setState({
       open: !open,
       title,
       message,
-      fields
+      fields,
     });
   };
 
   editBlock = index => {
     const { chain, currentBlockData } = this.state;
     this.setState({
-      currentBlockData: chain[index]
+      currentBlockData: chain[index],
     });
 
     this.toggleDialog({
-      title: "Edit block",
-      message: "Edit the fields below to hack the blockchain",
-      fields: Object.keys(chain[index])
+      title: 'Edit block',
+      message: 'Edit the fields below to hack the blockchain',
+      fields: Object.keys(chain[index]),
     });
   };
 
@@ -89,17 +89,17 @@ export default class HomePage extends React.PureComponent {
     this.setState({
       globalObject: {
         ...this.state.globalObject,
-        [field]: value
-      }
+        [field]: value,
+      },
     });
 
   getGlobalObject = data => {
     const { globalObject, wallet } = this.state;
     this.setState({
       transaction: false,
-      contract: false
+      contract: false,
     });
-    const timestamp = moment().format("LL h:mm:ss:SSS A");
+    const timestamp = moment().format('LL h:mm:ss:SSS A');
 
     if (Object.keys(globalObject).length === 0) {
       return { ...initialGlobalObject(data), timestamp };
@@ -119,7 +119,7 @@ export default class HomePage extends React.PureComponent {
       transaction,
       contract,
       globalObject,
-      wallet
+      wallet,
     } = this.state;
 
     const isGlobalObjectEmpty =
@@ -134,11 +134,11 @@ export default class HomePage extends React.PureComponent {
           <Button
             key="Cancel"
             onClick={() =>
-              this.toggleNewObject(contract ? "contract" : "transaction")
+              this.toggleNewObject(contract ? 'contract' : 'transaction')
             }
           >
             Cancel
-          </Button>
+          </Button>,
         ]
       ) : fields.length > 0 ? (
         [
@@ -156,7 +156,7 @@ export default class HomePage extends React.PureComponent {
           </Button>,
           <Button key="Cancel" onClick={this.toggleDialog}>
             Cancel
-          </Button>
+          </Button>,
         ]
       ) : (
         <Button onClick={this.toggleDialog}>OK</Button>
@@ -168,12 +168,12 @@ export default class HomePage extends React.PureComponent {
           label.charAt(0).toUpperCase() +
           label
             .slice(1)
-            .replace(/([A-Z])/g, " $1")
+            .replace(/([A-Z])/g, ' $1')
             .trim()
             .toLowerCase()
         }
         InputLabelProps={{
-          shrink: true
+          shrink: true,
         }}
         fullWidth
         value={currentBlockData[label]}
@@ -181,7 +181,7 @@ export default class HomePage extends React.PureComponent {
           const { [label]: currentLabel, ...restBlockData } = currentBlockData;
           const newBlockData = { ...restBlockData, [label]: e.target.value };
           this.setState({
-            currentBlockData: newBlockData
+            currentBlockData: newBlockData,
           });
         }}
         margin="normal"
@@ -193,24 +193,24 @@ export default class HomePage extends React.PureComponent {
         <TextField
           label="Contract title"
           InputLabelProps={{
-            shrink: true
+            shrink: true,
           }}
           fullWidth
-          value={globalObject.contractTitle || ""}
+          value={globalObject.contractTitle || ''}
           onChange={e =>
-            this.updateGlobalObject("contractTitle", e.target.value)
+            this.updateGlobalObject('contractTitle', e.target.value)
           }
           margin="normal"
         />
         <TextField
           label="Contract details"
           InputLabelProps={{
-            shrink: true
+            shrink: true,
           }}
           fullWidth
-          value={globalObject.contractDetails || ""}
+          value={globalObject.contractDetails || ''}
           onChange={e =>
-            this.updateGlobalObject("contractDetails", e.target.value)
+            this.updateGlobalObject('contractDetails', e.target.value)
           }
           margin="normal"
           multiline
@@ -219,17 +219,17 @@ export default class HomePage extends React.PureComponent {
         <TextField
           label="Send to"
           InputLabelProps={{
-            shrink: true
+            shrink: true,
           }}
           fullWidth
-          value={globalObject.sentTo || ""}
-          onChange={e => this.updateGlobalObject("sentTo", e.target.value)}
+          value={globalObject.sentTo || ''}
+          onChange={e => this.updateGlobalObject('sentTo', e.target.value)}
           margin="normal"
         />
         <TextField
           label="Origin wallet"
           InputLabelProps={{
-            shrink: true
+            shrink: true,
           }}
           fullWidth
           value={wallet}
@@ -246,13 +246,13 @@ export default class HomePage extends React.PureComponent {
           min="0"
           label="Transaction amount"
           InputLabelProps={{
-            shrink: true
+            shrink: true,
           }}
           fullWidth
           value={parseFloat(globalObject.transactionAmount) || 0}
           onChange={e =>
             this.updateGlobalObject(
-              "transactionAmount",
+              'transactionAmount',
               parseFloat(e.target.value) > 0 ? parseFloat(e.target.value) : 0
             )
           }
@@ -261,17 +261,17 @@ export default class HomePage extends React.PureComponent {
         <TextField
           label="Send to"
           InputLabelProps={{
-            shrink: true
+            shrink: true,
           }}
           fullWidth
-          value={globalObject.sentTo || ""}
-          onChange={e => this.updateGlobalObject("sentTo", e.target.value)}
+          value={globalObject.sentTo || ''}
+          onChange={e => this.updateGlobalObject('sentTo', e.target.value)}
           margin="normal"
         />
         <TextField
           label="Send from"
           InputLabelProps={{
-            shrink: true
+            shrink: true,
           }}
           fullWidth
           value={wallet}
@@ -294,7 +294,9 @@ export default class HomePage extends React.PureComponent {
             </DialogContentText>
             {contract
               ? contractElement
-              : transaction ? transactionElement : form}
+              : transaction
+              ? transactionElement
+              : form}
           </DialogContent>
           <DialogActions>{actions}</DialogActions>
         </Dialog>
@@ -304,7 +306,7 @@ export default class HomePage extends React.PureComponent {
             variant="raised"
             color="primary"
             fullWidth
-            onClick={() => this.toggleNewObject("contract")}
+            onClick={() => this.toggleNewObject('contract')}
             disabled={!isGlobalObjectEmpty}
           >
             Create a contract
@@ -315,7 +317,7 @@ export default class HomePage extends React.PureComponent {
             variant="raised"
             color="primary"
             fullWidth
-            onClick={() => this.toggleNewObject("transaction")}
+            onClick={() => this.toggleNewObject('transaction')}
             disabled={!isGlobalObjectEmpty}
           >
             Create a transaction
@@ -326,10 +328,10 @@ export default class HomePage extends React.PureComponent {
             genButton={
               <Button variant="raised" color="primary" fullWidth>
                 {contract
-                  ? "Generate your contract"
+                  ? 'Generate your contract'
                   : transaction
-                    ? "Generate your transaction"
-                    : "Generate default block"}
+                  ? 'Generate your transaction'
+                  : 'Generate default block'}
               </Button>
             }
             valButton={
@@ -350,9 +352,9 @@ export default class HomePage extends React.PureComponent {
             block={<Block />}
             getBlockObject={this.getGlobalObject}
             chainValidMessage={{
-              title: "Looks good!",
+              title: 'Looks good!',
               message:
-                "This chain has no errors, and it matches the rest of the network"
+                'This chain has no errors, and it matches the rest of the network',
             }}
           />
         </div>

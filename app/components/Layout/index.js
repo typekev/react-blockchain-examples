@@ -1,19 +1,19 @@
-import React from "react";
+import React from 'react';
 
-import { Typography, Toolbar, Card, AppBar } from "material-ui";
+import { Typography, Toolbar, Card, AppBar } from 'material-ui';
 
-import CardExpander from "./CardExpander";
-import CardContainer from "./CardContainer";
-import logo from "images/devoteam-white.png";
+import CardExpander from './CardExpander';
+import CardContainer from './CardContainer';
+import logo from 'images/devoteam-white.png';
 
 const styles = {
   root: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   flex: {
     flex: 1,
-    paddingLeft: "2rem"
-  }
+    paddingLeft: '2rem',
+  },
 };
 
 const Layout = props => {
