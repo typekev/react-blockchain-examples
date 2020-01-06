@@ -12,6 +12,10 @@ Devoteam memebers are welcome to contribute.
 
 For help contact <a href="https://github.com/typekev">Kevin Gonzalez</a>.
 
+## In progress
+
+- Update Readme
+
 ## Todo
 
 - Migrate project to [CRA](https://github.com/facebook/create-react-app)
