@@ -6,9 +6,13 @@ Delete, edit, and manipulate blockchain blocks!
 
 In the components folder, you will find the dev version of reblock, which can be used to test pull requests before submission.
 
-
 # Contribution
 
 Devoteam memebers are welcome to contribute.
 
 For help contact <a href="https://github.com/typekev">Kevin Gonzalez</a>.
+
+## Todo
+
+- Migrate project to [CRA](https://github.com/facebook/create-react-app)
+- Rename repo to something more fitting
