@@ -19,4 +19,5 @@ For help contact <a href="https://github.com/typekev">Kevin Gonzalez</a>.
 ## Todo
 
 - Migrate project to [CRA](https://github.com/facebook/create-react-app)
+- Add a togglable [consensus mechanism](https://en.wikipedia.org/wiki/Consensus_(computer_science)) such as [Bitcoin's proof of work mechanism](https://en.bitcoin.it/wiki/Proof_of_work)
 - Rename repo to something more fitting
