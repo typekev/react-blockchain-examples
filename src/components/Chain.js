@@ -98,7 +98,7 @@ const Chain = () => {
             setMessage(
               validate(blockchain, localBlockchain)
                 ? "Your local blockchain is in consensus with the majority of blockchains on the network."
-                : "The local blockchain has is not in consensus!"
+                : "Your local blockchain is not valid!"
             )
           }
         >
