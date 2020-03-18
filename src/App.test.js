@@ -8,4 +8,16 @@ describe("tests general render", () => {
     const buttonElement = getByText(/generate block/i);
     expect(buttonElement).toBeInTheDocument();
   });
+
+  test("renders validate button", () => {
+    const { getByText } = render(<App />);
+    const buttonElement = getByText(/validate/i);
+    expect(buttonElement).toBeInTheDocument();
+  });
+
+  test("renders restore button", () => {
+    const { getByText } = render(<App />);
+    const buttonElement = getByText(/restore/i);
+    expect(buttonElement).toBeInTheDocument();
+  });
 });
