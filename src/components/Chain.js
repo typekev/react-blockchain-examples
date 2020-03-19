@@ -115,7 +115,7 @@ const Chain = () => {
       <br />
       <TextField
         variant="outlined"
-        label="Difficulty level"
+        label="Difficulty level (0–5)"
         type="number"
         value={difficulty}
         onChange={e =>
