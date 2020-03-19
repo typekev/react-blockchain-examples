@@ -36,7 +36,7 @@ const Layout = ({ children }) => {
             <strong>React Blockchain Examples</strong>
           </Title>
           <IconButton
-            href="https://github.com/Devoteam-LU/learn-blockchain"
+            href="https://github.com/Devoteam-LU/react-blockchain-examples"
             target="_blank"
             rel="noopener noreferrer"
             color="inherit"
