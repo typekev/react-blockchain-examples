@@ -16,7 +16,7 @@ const AlertProvider = ({ children }) => {
     <>
       <Dialog
         fullWidth
-        open={message}
+        open={!!message}
         onClose={() => setMessage("")}
         aria-labelledby="validation"
         aria-describedby="validation remarks"
