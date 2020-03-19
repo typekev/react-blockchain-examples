@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import sha256 from "crypto-js/sha256";
-import { Button, ButtonGroup, Container, TextField } from "@material-ui/core";
+import { Grid, Button, ButtonGroup, TextField } from "@material-ui/core";
 import { AlertContext } from "../providers/AlertProvider";
 import Block from "./Block";
 
@@ -82,48 +82,53 @@ const Chain = () => {
   }, [localBlockchain]);
 
   return (
-    <div>
-      <ButtonGroup variant="contained">
-        <Button
-          color="primary"
-          onClick={() =>
-            addBlock(localBlockchain, setLocalBlockchain, difficulty)
-          }
-        >
-          Generate Block
-        </Button>
-        <Button
-          color="primary"
-          onClick={() =>
-            setMessage(
-              validate(blockchain, localBlockchain)
-                ? "Your local blockchain is in consensus with the majority of blockchains on the network."
-                : "Your local blockchain is not valid!"
-            )
-          }
-        >
-          Validate
-        </Button>
-        <Button
-          color="secondary"
-          onClick={() => setLocalBlockchain(blockchain)}
-        >
-          Restore
-        </Button>
-      </ButtonGroup>
-      <br />
-      <br />
-      <TextField
-        variant="outlined"
-        label="Difficulty level (0–5)"
-        type="number"
-        value={difficulty}
-        onChange={e =>
-          Number(e.target.value) >= 0 &&
-          setDifficulty(e.target.value > 4 ? 5 : Number(e.target.value))
-        }
-      />
-      <Container fixed>
+    <Grid container>
+      <Grid item md={6}>
+        <Grid container>
+          <Grid item flex="1">
+            <ButtonGroup variant="contained" size="large">
+              <Button
+                color="primary"
+                onClick={() =>
+                  addBlock(localBlockchain, setLocalBlockchain, difficulty)
+                }
+              >
+                Generate Block
+              </Button>
+              <Button
+                color="primary"
+                onClick={() =>
+                  setMessage(
+                    validate(blockchain, localBlockchain)
+                      ? "Your local blockchain is in consensus with the majority of chains on the network."
+                      : "Your local blockchain is not valid!"
+                  )
+                }
+              >
+                Validate
+              </Button>
+              <Button
+                color="secondary"
+                onClick={() => setLocalBlockchain(blockchain)}
+              >
+                Restore
+              </Button>
+            </ButtonGroup>
+          </Grid>
+          <Grid item>
+            <TextField
+              fullWidth
+              label="Difficulty level (0–5)"
+              type="number"
+              value={difficulty}
+              margin="none"
+              onChange={e =>
+                Number(e.target.value) >= 0 &&
+                setDifficulty(e.target.value > 4 ? 5 : Number(e.target.value))
+              }
+            />
+          </Grid>
+        </Grid>
         {localBlockchain.map((blockData, index) => (
           <Block
             key={index}
@@ -133,8 +138,8 @@ const Chain = () => {
             {...blockData}
           />
         ))}
-      </Container>
-    </div>
+      </Grid>
+    </Grid>
   );
 };
 

@@ -33,7 +33,7 @@ const Block = ({ index, timestamp, hash, del, onChange, ...fields }) => {
             ].map(([key, value]) => (
               <Grid key={key} item>
                 <TextField
-                  variant="filled"
+                  variant="outlined"
                   type={typeof value}
                   label={key}
                   value={value}
