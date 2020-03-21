@@ -1,6 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
 import sha256 from "crypto-js/sha256";
-import { Grid, Button, ButtonGroup, TextField } from "@material-ui/core";
+import {
+  Grid,
+  Button,
+  ButtonGroup,
+  TextField,
+  AppBar,
+  Tabs,
+  Tab
+} from "@material-ui/core";
 import { AlertContext } from "../providers/AlertProvider";
 import Block from "./Block";
 import PrettyJSONView from "./PrettyJSONView";
@@ -61,6 +69,7 @@ const Chain = () => {
   const [blockchain, setBlockchain] = useState([]);
   const [localBlockchain, setLocalBlockchain] = useState([]);
   const [difficulty, setDifficulty] = useState(0);
+  const [currentTab, setCurrentTab] = useState(0);
   const setMessage = useContext(AlertContext);
 
   useEffect(() => {
@@ -141,7 +150,18 @@ const Chain = () => {
         ))}
       </Grid>
       <Grid item md={6}>
-        <PrettyJSONView data={localBlockchain} />
+        <AppBar position="static">
+          <Tabs
+            value={currentTab}
+            onChange={(_e, nextTab) => setCurrentTab(nextTab)}
+            aria-label="simple tabs example"
+          >
+            <Tab label="Network chain" value={0} />
+            <Tab label="Local chain" value={1} />
+          </Tabs>
+        </AppBar>
+        {currentTab === 0 && <PrettyJSONView data={blockchain} />}
+        {currentTab === 1 && <PrettyJSONView data={localBlockchain} />}
       </Grid>
     </Grid>
   );
