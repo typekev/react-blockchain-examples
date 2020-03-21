@@ -7,7 +7,8 @@ import {
   TextField,
   AppBar,
   Tabs,
-  Tab
+  Tab,
+  Slide
 } from "@material-ui/core";
 import { AlertContext } from "../providers/AlertProvider";
 import Block from "./Block";
@@ -150,7 +151,7 @@ const Chain = () => {
         ))}
       </Grid>
       <Grid item md={6}>
-        <AppBar position="static">
+        <AppBar position="relative">
           <Tabs
             value={currentTab}
             onChange={(_e, nextTab) => setCurrentTab(nextTab)}
@@ -160,8 +161,16 @@ const Chain = () => {
             <Tab label="Local chain" value={1} />
           </Tabs>
         </AppBar>
-        {currentTab === 0 && <PrettyJSONView data={blockchain} />}
-        {currentTab === 1 && <PrettyJSONView data={localBlockchain} />}
+        <Slide direction="right" in={currentTab === 0} mountOnEnter unmountOnExit>
+          <div>
+            <PrettyJSONView data={blockchain} />
+          </div>
+        </Slide>
+        <Slide direction="left" in={currentTab === 1} mountOnEnter unmountOnExit>
+          <div>
+            <PrettyJSONView data={localBlockchain} />
+          </div>
+        </Slide>
       </Grid>
     </Grid>
   );
