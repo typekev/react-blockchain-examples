@@ -3,6 +3,7 @@ import sha256 from "crypto-js/sha256";
 import { Grid, Button, ButtonGroup, TextField } from "@material-ui/core";
 import { AlertContext } from "../providers/AlertProvider";
 import Block from "./Block";
+import PrettyJSONView from "./PrettyJSONView";
 
 const calculateHash = blockData => sha256(JSON.stringify(blockData)).toString();
 
@@ -82,7 +83,7 @@ const Chain = () => {
   }, [localBlockchain]);
 
   return (
-    <Grid container>
+    <Grid container spacing={3}>
       <Grid item md={6}>
         <Grid container>
           <Grid item flex="1">
@@ -138,6 +139,9 @@ const Chain = () => {
             {...blockData}
           />
         ))}
+      </Grid>
+      <Grid item md={6}>
+        <PrettyJSONView data={localBlockchain} />
       </Grid>
     </Grid>
   );
