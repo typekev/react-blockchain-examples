@@ -13,6 +13,7 @@ import {
 import { AlertContext } from "../providers/AlertProvider";
 import Block from "./Block";
 import PrettyJSONView from "./PrettyJSONView";
+import { css } from "emotion";
 
 const calculateHash = blockData => sha256(JSON.stringify(blockData)).toString();
 
@@ -94,7 +95,14 @@ const Chain = () => {
 
   return (
     <Grid container spacing={3}>
-      <Grid item md={6}>
+      <Grid
+        item
+        md={6}
+        className={css`
+          height: calc(100vh - 8.25rem);
+          overflow: scroll;
+        `}
+      >
         <Grid container>
           <Grid item flex="1">
             <ButtonGroup variant="contained" size="large">
@@ -150,8 +158,24 @@ const Chain = () => {
           />
         ))}
       </Grid>
-      <Grid item md={6}>
-        <AppBar position="relative">
+      <Grid
+        item
+        md={6}
+        className={css`
+          position: relative;
+          margin: 0;
+          color: rgba(255, 255, 255);
+          background-color: rgb(0, 0, 0);
+          height: calc(100vh - 8.25rem);
+          overflow: hidden;
+        `}
+      >
+        <AppBar
+          position="relative"
+          className={css`
+            background-color: rgb(0, 0, 0);
+          `}
+        >
           <Tabs
             value={currentTab}
             onChange={(_e, nextTab) => setCurrentTab(nextTab)}
@@ -161,14 +185,24 @@ const Chain = () => {
             <Tab label="Local chain" value={1} />
           </Tabs>
         </AppBar>
-        <Slide direction="right" in={currentTab === 0} mountOnEnter unmountOnExit>
-          <div>
-            <PrettyJSONView data={blockchain} />
+        <Slide direction="right" in={currentTab === 0}>
+          <div
+            className={css`
+              position: absolute;
+              height: calc(100% - 4.5rem);
+            `}
+          >
+            <PrettyJSONView data={blockchain} name="network" />
           </div>
         </Slide>
-        <Slide direction="left" in={currentTab === 1} mountOnEnter unmountOnExit>
-          <div>
-            <PrettyJSONView data={localBlockchain} />
+        <Slide direction="left" in={currentTab === 1}>
+          <div
+            className={css`
+              position: absolute;
+              height: calc(100% - 4.5rem);
+            `}
+          >
+            <PrettyJSONView data={localBlockchain} name="local" />
           </div>
         </Slide>
       </Grid>
