@@ -172,7 +172,7 @@ const Chain = () => {
       >
         <AppBar
           position="relative"
-          elevation="0"
+          elevation={0}
           className={css`
             color: ${theme.palette.secondary.contrastText};
             background-color: ${theme.palette.secondary.dark};
