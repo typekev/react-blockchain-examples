@@ -137,13 +137,13 @@ const Chain = () => {
               fullWidth
               variant="filled"
               color="secondary"
-              label="Difficulty level (0–5)"
+              label="Difficulty level (0–10)"
               type="number"
               value={difficulty}
               margin="none"
               onChange={e =>
                 Number(e.target.value) >= 0 &&
-                setDifficulty(e.target.value > 4 ? 5 : Number(e.target.value))
+                setDifficulty(e.target.value > 9 ? 10 : Number(e.target.value))
               }
             />
           </Grid>
