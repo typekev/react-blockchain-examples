@@ -17,7 +17,7 @@ const Block = ({ index, timestamp, hash, del, onChange, ...fields }) => {
         <CardHeader
           action={
             <IconButton aria-label="delete" onClick={() => del(index)}>
-              <Delete />
+              <Delete color="error"/>
             </IconButton>
           }
           title={`Block ${index || "GENESIS"}`}
