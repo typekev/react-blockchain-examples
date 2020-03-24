@@ -1,10 +1,8 @@
-import { primary, secondary } from "./colors";
-
 const palette = {
   primary: {
-    main: primary
+    main: "#FFF"
   },
-  secondary: { main: secondary }
+  secondary: { main: "rgb(0, 70, 124)" }
 };
 
 export default palette;

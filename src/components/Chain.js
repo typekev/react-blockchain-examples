@@ -14,7 +14,7 @@ import { AlertContext } from "../providers/AlertProvider";
 import Block from "./Block";
 import PrettyJSONView from "./PrettyJSONView";
 import { css } from "emotion";
-import { terminalText, terminalBackground } from "../colors";
+import theme from "../theme";
 
 const calculateHash = blockData => sha256(JSON.stringify(blockData)).toString();
 
@@ -71,7 +71,7 @@ const editBlock = (blockchain, setBlockchain) => ({ hash, key, value }) =>
 const Chain = () => {
   const [blockchain, setBlockchain] = useState([]);
   const [localBlockchain, setLocalBlockchain] = useState([]);
-  const [difficulty, setDifficulty] = useState(0);
+  const [difficulty, setDifficulty] = useState(1);
   const [currentTab, setCurrentTab] = useState(0);
   const setMessage = useContext(AlertContext);
 
@@ -108,7 +108,7 @@ const Chain = () => {
           <Grid item flex="1">
             <ButtonGroup variant="contained" size="large">
               <Button
-                color="primary"
+                color="secondary"
                 onClick={() =>
                   addBlock(localBlockchain, setLocalBlockchain, difficulty)
                 }
@@ -116,7 +116,7 @@ const Chain = () => {
                 Generate Block
               </Button>
               <Button
-                color="primary"
+                color="secondary"
                 onClick={() =>
                   setMessage(
                     validate(blockchain, localBlockchain)
@@ -127,10 +127,7 @@ const Chain = () => {
               >
                 Validate
               </Button>
-              <Button
-                color="secondary"
-                onClick={() => setLocalBlockchain(blockchain)}
-              >
+              <Button onClick={() => setLocalBlockchain(blockchain)}>
                 Restore
               </Button>
             </ButtonGroup>
@@ -138,6 +135,8 @@ const Chain = () => {
           <Grid item>
             <TextField
               fullWidth
+              variant="filled"
+              color="secondary"
               label="Difficulty level (0–5)"
               type="number"
               value={difficulty}
@@ -165,8 +164,8 @@ const Chain = () => {
         className={css`
           position: relative;
           margin: 0;
-          color: ${terminalText};
-          background-color: ${terminalBackground};
+          color: ${theme.palette.secondary.contrastText};
+          background-color: ${theme.palette.secondary.dark};
           height: calc(100vh - 8.25rem);
           overflow: hidden;
         `}
@@ -175,7 +174,8 @@ const Chain = () => {
           position="relative"
           elevation="0"
           className={css`
-            background-color: ${terminalBackground};
+            color: ${theme.palette.secondary.contrastText};
+            background-color: ${theme.palette.secondary.dark};
           `}
         >
           <Tabs

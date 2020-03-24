@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Typography, Toolbar, AppBar, IconButton } from "@material-ui/core";
 import GitHub from "@material-ui/icons/GitHub";
-import logo from "../images/devoteam-white.png";
+import logo from "../images/devoteam-logo-red.png";
 
 const Main = styled.div`
   position: relative;
@@ -18,6 +18,7 @@ const Main = styled.div`
 const Title = styled(Typography)`
   flex-grow: 1;
   padding-left: 1rem;
+  padding-top: 0.125rem;
 `;
 
 const Layout = ({ children }) => {
