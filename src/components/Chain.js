@@ -14,6 +14,7 @@ import { AlertContext } from "../providers/AlertProvider";
 import Block from "./Block";
 import PrettyJSONView from "./PrettyJSONView";
 import { css } from "emotion";
+import { terminalText, terminalBackground } from "../colors";
 
 const calculateHash = blockData => sha256(JSON.stringify(blockData)).toString();
 
@@ -164,16 +165,17 @@ const Chain = () => {
         className={css`
           position: relative;
           margin: 0;
-          color: rgba(255, 255, 255);
-          background-color: rgb(0, 0, 0);
+          color: ${terminalText};
+          background-color: ${terminalBackground};
           height: calc(100vh - 8.25rem);
           overflow: hidden;
         `}
       >
         <AppBar
           position="relative"
+          elevation="0"
           className={css`
-            background-color: rgb(0, 0, 0);
+            background-color: ${terminalBackground};
           `}
         >
           <Tabs
