@@ -9,18 +9,22 @@ const PrettyJSONView = ({ data, name }) => (
       margin: 0;
       height: 100%;
       overflow: scroll;
+      font-weight: bold;
+      color: ${theme.palette.terminal.contrastText};
     `}
   >
     <span
       className={css`
-        color: ${theme.palette.primary.contrastText};
+        padding-right: 0.75rem;
+        font-size: 0.6875rem;
+        color: ${theme.palette.terminal.success};
       `}
     >
-      ➜{" "}
+      ~>
     </span>
     <span
       className={css`
-        color: ${theme.palette.primary.contrastText};
+        color: ${theme.palette.terminal.accentText};
       `}
     >
       react-blockchain-examples{" "}
@@ -29,7 +33,13 @@ const PrettyJSONView = ({ data, name }) => (
     <br />
     {JSON.stringify(data, null, 2)}
     <br />
-    (END)
+    <span
+      className={css`
+        color: ${theme.palette.terminal.accentText};
+      `}
+    >
+      (END)
+    </span>
   </pre>
 );
 
