@@ -165,7 +165,7 @@ const Chain = () => {
           position: relative;
           margin: 0;
           color: ${theme.palette.secondary.contrastText};
-          background-color: ${theme.palette.secondary.dark};
+          background-color: ${theme.palette.terminal.main};
           height: calc(100vh - 8.25rem);
           overflow: hidden;
         `}
@@ -175,7 +175,7 @@ const Chain = () => {
           elevation={0}
           className={css`
             color: ${theme.palette.secondary.contrastText};
-            background-color: ${theme.palette.secondary.dark};
+            background-color: ${theme.palette.terminal.main};
           `}
         >
           <Tabs
